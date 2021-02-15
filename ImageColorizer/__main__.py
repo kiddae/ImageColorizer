@@ -14,7 +14,7 @@ def main():
     parser.add_argument(
         '-x', '--xresources', help='Get palette from Xresources.', action='store_true')
     parser.add_argument(
-        '-c', '--colorer', help='Get palette from colorer', action='store_true')
+        '-c', '--colorer', help='Get palette from colorer (optionnaly, pass the name of the colorscheme wanted)')
     parser.add_argument(
         '-s', '--show', help='Show image using xdg-open when image is generated.', action='store_true')
     args = parser.parse_args()
@@ -24,7 +24,9 @@ def main():
     values = []
     if args.xresources:
         values = output('xrdb -query | cut -f 2').split('\n')
-    elif args.colorer:
+    if args.colorer is not None:
+        values = output('colorer --get {}'.format(args.colorer)).split('\n')
+    else:
         values = output('colorer --get all').split('\n')
     img_col.load_palette(values)
 
