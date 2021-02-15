@@ -41,3 +41,7 @@ Clone the repo and run `./install.sh`. You can also run `pip3 install -e .`
 # Troubleshoot
 
 Any common fixes to any errors will be added here.
+
+# Credits
+
+Heavily inspired by [ImageGoNord](https://github.com/Schrodinger-Hat/ImageGoNord-pip)
