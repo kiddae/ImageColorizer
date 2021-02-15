@@ -25,7 +25,8 @@ def main():
     if args.xresources:
         values = output('xrdb -query | cut -f 2').split('\n')
     if args.colorer is not None:
-        values = output('colorer --get {}'.format(args.colorer)).split('\n')
+        values = output(
+            'colorer --get all {}'.format(args.colorer)).split('\n')
     else:
         values = output('colorer --get all').split('\n')
     img_col.load_palette(values)
