@@ -10,8 +10,10 @@ Using the OneDark colorscheme:
 ![Image](Demo/demo1.jpg)
 
 ![Image2](Demo/demo2.jpg)
+Original/OneDark
 
 ![Image3](Demo/montage.png)
+OneDark/Gruvbox
 
 # Usage
 
