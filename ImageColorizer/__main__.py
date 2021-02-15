@@ -9,12 +9,12 @@ def output(command):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-i', '--input', help='File to generate image from.')
-    parser.add_argument('-o', '--output', help='File to generate image to.')
+    parser.add_argument('input', help='File to generate image from.')
+    parser.add_argument('output', help='File to generate image to.')
     parser.add_argument(
         '-x', '--xresources', help='Get palette from Xresources.', action='store_true')
     parser.add_argument(
-        '-c', '--colorer', help='Get palette from colorer (optionnaly, pass the name of the colorscheme wanted)')
+        '-c', '--colorer', help='Get palette from colorer.')
     parser.add_argument(
         '-s', '--show', help='Show image using xdg-open when image is generated.', action='store_true')
     args = parser.parse_args()
@@ -24,11 +24,9 @@ def main():
     values = []
     if args.xresources:
         values = output('xrdb -query | cut -f 2').split('\n')
-    if args.colorer is not None:
+    elif args.colorer is not None:
         values = output(
             'colorer --get all {}'.format(args.colorer)).split('\n')
-    else:
-        values = output('colorer --get all').split('\n')
     img_col.load_palette(values)
 
     img_col.generate(args.input, args.output, show=args.show)

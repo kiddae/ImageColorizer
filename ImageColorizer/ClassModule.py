@@ -21,13 +21,15 @@ class ImageColorizer:
     def _color_difference(self, a, b):
         return sqrt(sum(([(c2-c1)**2 for c1, c2 in zip(a, b)])))
 
-    def generate(self, input, output, show=True):
+    def generate(self, input, output, show=False):
         """
         Generate the image.
         + input (str): path to image to generate from
         + output (str): path to file to save image to
         + show (bool): show the image at the end using the default image-viewer
         """
+        if self.palette == []:
+            raise ValueError("Palette is empty")
         # Load image
         img = Image.open(input)
         width, height = img.width, img.height
@@ -62,4 +64,5 @@ class ImageColorizer:
         # Export the image
         img.save(output)
         # Show it
-        run('xdg-open {}'.format(output), shell=True)
+        if show:
+            run('xdg-open {}'.format(output), shell=True)
