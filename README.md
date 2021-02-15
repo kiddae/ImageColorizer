@@ -11,6 +11,8 @@ Using the OneDark colorscheme:
 
 ![Image2](Demo/demo2.jpg)
 
+![Image3](Demo/montage.png.jpg)
+
 # Usage
 
 ```
@@ -30,6 +32,11 @@ optional arguments:
 # Installation
 
 Clone the repo and run `./install.sh`. You can also run `pip3 install -e .`
+
+# Todo
+
++ Implement multi-threading (I don't have enough knowledge yet to do it)
++ More colorscheme importing options
 
 # Troubleshoot
 
