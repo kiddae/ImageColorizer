@@ -11,7 +11,7 @@ Using the OneDark colorscheme:
 
 ![Image2](Demo/demo2.jpg)
 
-![Image3](Demo/montage.png.jpg)
+![Image3](Demo/montage.png)
 
 # Usage
 
