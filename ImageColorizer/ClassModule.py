@@ -6,6 +6,7 @@ from math import sqrt
 class ImageColorizer:
     def __init__(self):
         self.palette = []
+        self.use_average = False
 
     def load_palette(self, values):
         """
@@ -20,6 +21,39 @@ class ImageColorizer:
 
     def _color_difference(self, a, b):
         return sqrt(sum(([(c2-c1)**2 for c1, c2 in zip(a, b)])))
+
+    def set_average(self, bool, box_size=1):
+        """
+        Use average algorithm or not, and set the box size to use for it.
+        + bool (bool): whether to use it or not.
+        + box_size (int): size of the box for the average algorithm
+        """
+        self.use_average = bool
+        self.avg_box_size = box_size
+
+    def _average_color(self, pixels, x, y):
+        """
+        Return the average color of a pixel and the pixels around it.
+        + pixels (raw PIL image): pixels to operate on
+        + x (int): x coord. of pixel
+        + y (int): y coord. of pixel
+        """
+        colors = []
+        for i in range(-self.avg_box_size, self.avg_box_size+1):
+            for j in range(-self.avg_box_size, self.avg_box_size+1):
+                try:
+                    colors.append(pixels[x+i, y+j])
+                except IndexError:
+                    pass
+        list_r = [i[0] for i in colors]
+        list_g = [i[1] for i in colors]
+        list_b = [i[2] for i in colors]
+
+        r = sum(list_r)//len(list_r)
+        g = sum(list_g)//len(list_g)
+        b = sum(list_b)//len(list_b)
+
+        return (r, g, b)
 
     def generate(self, input, output, show=False):
         """
@@ -43,7 +77,10 @@ class ImageColorizer:
         # Loop through every pixel
         for x in range(width):
             for y in range(height):
-                pixel = pixels[x, y]
+                if self.use_average:
+                    pixel = self._average_color(pixels, x, y)
+                else:
+                    pixel = pixels[x, y]
                 if (pixel in checked_colors):
                     new_color = checked_colors[pixel]
                 else:
