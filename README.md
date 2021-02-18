@@ -22,7 +22,8 @@ OneDark/Gruvbox
 # Usage
 
 ```
-usage: ImageColorizer [-h] [-x] [-c COLORSCHEME] [-s] [--average BOX_SIZE]
+usage: ImageColorizer [-h] [-x] [-c COLORSCHEME] [-p COLOR [COLOR ...]] [-s]
+                      [--average BOX_SIZE]
                       input output
 
 positional arguments:
@@ -34,10 +35,13 @@ optional arguments:
   -x, --xresources      Get palette from Xresources.
   -c COLORSCHEME, --colorer COLORSCHEME
                         Get palette from colorer.
+  -p COLOR [COLOR ...], --palette COLOR [COLOR ...]
+                        Manually set colors.
   -s, --show            Show image using xdg-open when image is generated.
   --average BOX_SIZE    Use average algorithm (calculate the average color of
                         each pixel with the pixels around) to generate the
-                        wallpaper.
+                        wallpaper, and set the size of the box to calculate
+                        the color from
 
 ```
 
