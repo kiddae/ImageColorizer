@@ -87,9 +87,8 @@ class ImageColorizer:
                     # Getting the differences between color of pixel(x, y) and colors from the palette
                     differences = [
                         [self._color_difference(pixel, i), i] for i in self.palette]
-                    differences.sort()
                     # Choose the color of which difference is the least
-                    new_color = differences[0][1]
+                    new_color = min(differences)[1]
                     # Add it to checked_colors
                     checked_colors[pixel] = new_color
                 # Replacing the current pixel with the color from the palette
