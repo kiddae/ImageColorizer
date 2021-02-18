@@ -46,7 +46,7 @@ optional arguments:
 
 ## Exemples
 
-```{shell}
+```shell
 ImageColorizer a.jpg output.jpg -x # Generate the wallpaper from colors of the currently used ~/.Xresources or ~/.Xdefaults file
 ImageColorizer a.jpg output.jpg -c nord # Generate the wallpaper using colorscheme nord from colorer
 ImageColorizer a.jpg output.jpg -c nord --average 2 # Use average algorithm with box size of 2
