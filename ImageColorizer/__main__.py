@@ -31,6 +31,8 @@ def main():
     elif args.colorer is not None:
         values = output(
             'colorer --get all {}'.format(args.colorer)).split('\n')
+    else:
+        values = args.palette
     img_col.load_palette(values)
 
     img_col.set_average(args.average is not None, args.average)

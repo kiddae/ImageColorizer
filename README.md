@@ -42,7 +42,16 @@ optional arguments:
                         each pixel with the pixels around) to generate the
                         wallpaper, and set the size of the box to calculate
                         the color from
+```
 
+## Exemples
+
+```{shell}
+ImageColorizer a.jpg output.jpg -x # Generate the wallpaper from colors of the currently used ~/.Xresources or ~/.Xdefaults file
+ImageColorizer a.jpg output.jpg -c nord # Generate the wallpaper using colorscheme nord from colorer
+ImageColorizer a.jpg output.jpg -c nord --average 2 # Use average algorithm with box size of 2
+ImageColorizer a.jpg output.jpg -c nord --average 2 -s # Show image at the end
+ImageColorizer a.jpg output.jpg -p "#3b4252" "#bf616a" "#a3be8c" -s # Use these colors.
 ```
 
 # Installation
