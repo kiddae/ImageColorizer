@@ -3,6 +3,10 @@
 It's a Python module and a CLI tool that you can easily use to colorize wallpapers for them to fit a colorscheme.
 Currently supports importing colorschemes from the currently set `Xresources` variables and `colorer` (my [colorscheme management engine](https://github.com/ngynLk/colorer)).
 
+It can use two different algorithms:
++ "classic" algorithm, goes through each pixel and replaces it with the right color from the colorscheme
++ average algorithm, calculates the average color of each pixel before. This one gives smoother and better results in some cases.
+
 Using the OneDark colorscheme:
 
 ![Colorscheme](Demo/Onedark.png)
@@ -18,7 +22,8 @@ OneDark/Gruvbox
 # Usage
 
 ```
-usage: ImageColorizer [-h] [-x] [-c COLORER] [-s] input output
+usage: ImageColorizer [-h] [-x] [-c COLORSCHEME] [-s] [--average BOX_SIZE]
+                      input output
 
 positional arguments:
   input                 File to generate image from.
@@ -27,14 +32,19 @@ positional arguments:
 optional arguments:
   -h, --help            show this help message and exit
   -x, --xresources      Get palette from Xresources.
-  -c COLORER, --colorer COLORER
+  -c COLORSCHEME, --colorer COLORSCHEME
                         Get palette from colorer.
   -s, --show            Show image using xdg-open when image is generated.
+  --average BOX_SIZE    Use average algorithm (calculate the average color of
+                        each pixel with the pixels around) to generate the
+                        wallpaper.
+
 ```
 
 # Installation
 
-Clone the repo and run `./install.sh`. You can also run `pip3 install .`
+Install `python` first.
+Clone the repo and run `./install.sh`. You can also run `pip3 install .` This will install the right dependencies for you.
 
 # Todo
 
