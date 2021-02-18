@@ -16,6 +16,8 @@ def main():
     parser.add_argument(
         '-c', '--colorer', help='Get palette from colorer.', metavar='COLORSCHEME')
     parser.add_argument(
+        '-p', '--palette', help='Manually set colors.', nargs='+', metavar='COLOR')
+    parser.add_argument(
         '-s', '--show', help='Show image using xdg-open when image is generated.', action='store_true')
     parser.add_argument(
         '--average', help='Use average algorithm (calculate the average color of each pixel with the pixels around) to generate the wallpaper, and set the size of the box to calculate the color from', type=int, metavar='BOX_SIZE')
