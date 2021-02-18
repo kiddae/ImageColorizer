@@ -38,16 +38,18 @@ class ImageColorizer:
         + x (int): x coord. of pixel
         + y (int): y coord. of pixel
         """
-        colors = []
+        list_r = list_g = list_b = []
+        r = g = b = counter = 0
+
         for i in range(-self.avg_box_size, self.avg_box_size+1):
             for j in range(-self.avg_box_size, self.avg_box_size+1):
                 try:
-                    colors.append(pixels[x+i, y+j])
+                    pixel = pixels[x+i, y+j]
+                    list_r.append(pixel[0])
+                    list_g.append(pixel[1])
+                    list_b.append(pixel[2])
                 except IndexError:
                     pass
-        list_r = [i[0] for i in colors]
-        list_g = [i[1] for i in colors]
-        list_b = [i[2] for i in colors]
 
         r = sum(list_r)//len(list_r)
         g = sum(list_g)//len(list_g)
