@@ -96,8 +96,8 @@ class ImageColorizer:
                 pixels[x, y] = new_color
                 counter += 1
                 # Progress
-                print('Progress: {}%'.format(
-                    round(counter/limit*100, 2)), end='\r')
+                print('Progress: {:.2f}%'.format(
+                    counter/limit*100), end='\r')
         # Export the image
         img.save(output)
         # Show it
