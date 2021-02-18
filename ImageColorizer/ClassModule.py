@@ -20,7 +20,7 @@ class ImageColorizer:
                 continue
 
     def _color_difference(self, a, b):
-        return sqrt(sum(([(c2-c1)**2 for c1, c2 in zip(a, b)])))
+        return sum(([abs(c2-c1) for c1, c2 in zip(a, b)]))
 
     def set_average(self, bool, box_size=1):
         """
