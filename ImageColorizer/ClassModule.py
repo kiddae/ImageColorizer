@@ -69,6 +69,8 @@ class ImageColorizer:
         # Load image
         img = Image.open(input)
         width, height = img.width, img.height
+        output_img = Image.new("RGB", (width, height))
+        output_pixels = output_img.load()
         # To show progress
         counter = 0
         limit = width*height
@@ -94,13 +96,13 @@ class ImageColorizer:
                     # Add it to checked_colors
                     checked_colors[pixel] = new_color
                 # Replacing the current pixel with the color from the palette
-                pixels[x, y] = new_color
+                output_pixels[x, y] = new_color
                 counter += 1
                 # Progress
                 print('Progress: {:.2f}%'.format(
                     counter/limit*100), end='\r')
         # Export the image
-        img.save(output)
+        output_img.save(output)
         # Show it
         if show:
             run('xdg-open {}'.format(output), shell=True)
