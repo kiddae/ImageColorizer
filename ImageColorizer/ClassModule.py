@@ -1,4 +1,4 @@
-from PIL import Image, ImageColor
+from PIL import Image, ImageColor, ImageFilter
 from subprocess import run
 from math import sqrt
 
@@ -19,10 +19,10 @@ class ImageColorizer:
             except ValueError:
                 continue
 
-    def _color_difference(self, a, b):
-        return sum(([abs(c2-c1) for c1, c2 in zip(a, b)]))
+    def _color_difference(self, color1, color2):
+        return sum([abs(c2-c1) for c1, c2 in zip(color1, color2)])
 
-    def set_average(self, bool, box_size=1):
+    def set_average(self, bool, box_size=2):
         """
         Use average algorithm or not, and set the box size to use for it.
         + bool (bool): whether to use it or not.
@@ -38,24 +38,45 @@ class ImageColorizer:
         + x (int): x coord. of pixel
         + y (int): y coord. of pixel
         """
-        list_r = list_g = list_b = []
-        r = g = b = counter = 0
+        # list_r = list_g = list_b = []
+        # r = g = b = 0
 
-        for i in range(-self.avg_box_size, self.avg_box_size+1):
-            for j in range(-self.avg_box_size, self.avg_box_size+1):
+        # for i in range(-self.avg_box_size, self.avg_box_size+1):
+        #     for j in range(-self.avg_box_size, self.avg_box_size+1):
+        #         try:
+        #             pixel = pixels[x+i, y+j]
+        #             list_r.append(pixel[0])
+        #             list_g.append(pixel[1])
+        #             list_b.append(pixel[2])
+        #         except IndexError:
+        #             pass
+
+        # r = sum(list_r)//len(list_r)
+        # g = sum(list_g)//len(list_g)
+        # b = sum(list_b)//len(list_b)
+
+        # return (r, g, b)
+        average_sum = []
+        for k in range(-self.avg_box_size, self.avg_box_size+1):
+            for l in range(-self.avg_box_size, self.avg_box_size+1):
                 try:
-                    pixel = pixels[x+i, y+j]
-                    list_r.append(pixel[0])
-                    list_g.append(pixel[1])
-                    list_b.append(pixel[2])
-                except IndexError:
+                    average_sum.append(pixels[x+k, y+l])
+                except:
                     pass
 
-        r = sum(list_r)//len(list_r)
-        g = sum(list_g)//len(list_g)
-        b = sum(list_b)//len(list_b)
+        size = len(average_sum)
 
-        return (r, g, b)
+        r = 0
+        g = 0
+        b = 0
+
+        for x in average_sum:
+            r += x[0]
+            g += x[1]
+            b += x[2]
+
+        avg_color = (int(r/size), int(g/size), int(b/size))
+        return avg_color
 
     def generate(self, input, output, show=False):
         """
@@ -69,8 +90,6 @@ class ImageColorizer:
         # Load image
         img = Image.open(input)
         width, height = img.width, img.height
-        output_img = Image.new("RGB", (width, height))
-        output_pixels = output_img.load()
         # To show progress
         counter = 0
         limit = width*height
@@ -78,31 +97,35 @@ class ImageColorizer:
         checked_colors = {}
         # Get the pixels from the image
         pixels = img.load()
+        original_img = img.copy()
+        original_pixels = original_img.load()
+        original_img.close()
         # Loop through every pixel
         for x in range(width):
             for y in range(height):
                 if self.use_average:
-                    pixel = self._average_color(pixels, x, y)
+                    current_pixel = self._average_color(original_pixels, x, y)
                 else:
-                    pixel = pixels[x, y]
-                if (pixel in checked_colors):
-                    new_color = checked_colors[pixel]
+                    current_pixel = pixels[x, y]
+                if (current_pixel in checked_colors):
+                    new_color = checked_colors[current_pixel]
                 else:
                     # Getting the differences between color of pixel(x, y) and colors from the palette
                     differences = [
-                        [self._color_difference(pixel, i), i] for i in self.palette]
+                        (self._color_difference(current_pixel, i), i) for i in self.palette]
                     # Choose the color of which difference is the least
                     new_color = min(differences)[1]
                     # Add it to checked_colors
-                    checked_colors[pixel] = new_color
+                    checked_colors[current_pixel] = new_color
                 # Replacing the current pixel with the color from the palette
-                output_pixels[x, y] = new_color
+                pixels[x, y] = new_color
                 counter += 1
                 # Progress
                 print('Progress: {:.2f}%'.format(
                     counter/limit*100), end='\r')
+        # img = img.filter(ImageFilter.GaussianBlur(1))
         # Export the image
-        output_img.save(output)
+        img.save(output)
         # Show it
         if show:
             run('xdg-open {}'.format(output), shell=True)
