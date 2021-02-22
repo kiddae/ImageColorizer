@@ -93,6 +93,7 @@ class ImageColorizer:
         """
         # Load image
         image = Image.open(input)
+        image = image.convert('RGB')
         width, height = image.width, image.height
         # Quantize image first
         if quantize:
