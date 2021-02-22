@@ -9,6 +9,9 @@ class ImageColorizer:
 
     # Utilities
     def _color_difference(self, color1, color2):
+        """
+        Calculate the difference between two color triplets
+        """
         return sum([abs(c2-c1) for c1, c2 in zip(color1, color2)])
 
     def _average_color(self, pixels, x, y):
@@ -82,6 +85,11 @@ class ImageColorizer:
     def generate(self, input, output, show=False, blur=False, quantize=True):
         """
         Generate the image with the pixel/average algorithm.
+        + input (str): filepath of image to open
+        + output (str): where to save the generated image
+        + show (bool): whether to show the image using xdg-open at the end or not.
+        + blur (bool): whether to blur the image at the end or not
+        + quantize (bool): whether to quantize the image before or not.
         """
         # Load image
         image = Image.open(input)
