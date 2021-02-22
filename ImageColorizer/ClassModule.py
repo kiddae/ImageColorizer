@@ -125,7 +125,7 @@ class ImageColorizer:
                     counter/limit*100), end='\r')
         # img = img.filter(ImageFilter.GaussianBlur(1))
         # Export the image
-        img.save(output)
+        img.save(output, quality=100, subsampling=0)
         # Show it
         if show:
             run('xdg-open {}'.format(output), shell=True)
