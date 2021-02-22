@@ -21,6 +21,8 @@ def main():
         '-s', '--show', help='Show image using xdg-open when image is generated.', action='store_true')
     parser.add_argument(
         '--average', help='Use average algorithm (calculate the average color of each pixel with the pixels around) to generate the wallpaper, and set the size of the box to calculate the color from', type=int, metavar='BOX_SIZE')
+    parser.add_argument(
+        '--no_quantize', help='Do not quantize the image before processing (may make the image look better)', action='store_true')
     args = parser.parse_args()
 
     img_col = ImageColorizer()
@@ -37,7 +39,8 @@ def main():
 
     img_col.set_average(args.average is not None, args.average)
 
-    img_col.generate(args.input, args.output, show=args.show)
+    img_col.generate(args.input, args.output, show=args.show,
+                     quantize=(not args.no_quantize))
 
 
 if __name__ == '__main__':

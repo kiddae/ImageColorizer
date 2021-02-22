@@ -23,7 +23,7 @@ OneDark/Gruvbox
 
 ```
 usage: ImageColorizer [-h] [-x] [-c COLORSCHEME] [-p COLOR [COLOR ...]] [-s]
-                      [--average BOX_SIZE]
+                      [--average BOX_SIZE] [--no_quantize]
                       input output
 
 positional arguments:
@@ -42,6 +42,9 @@ optional arguments:
                         each pixel with the pixels around) to generate the
                         wallpaper, and set the size of the box to calculate
                         the color from
+  --no_quantize         Do not quantize the image before processing (may make
+                        the image look better)
+
 ```
 
 ## Exemples

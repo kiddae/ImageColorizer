@@ -1,6 +1,5 @@
 from PIL import Image, ImageColor, ImageFilter
 from subprocess import run
-from math import sqrt
 
 
 class ImageColorizer:
@@ -8,28 +7,9 @@ class ImageColorizer:
         self.palette = []
         self.use_average = False
 
-    def load_palette(self, values):
-        """
-        Load a palette to generate wallpapers from.
-        + values (list): color palette, either as a hex code '#ffffff' or RGB tuple (255, 255, 255)
-        """
-        for i in values:
-            try:
-                self.palette.append(ImageColor.getcolor(i, "RGB"))
-            except ValueError:
-                continue
-
+    # Utilities
     def _color_difference(self, color1, color2):
         return sum([abs(c2-c1) for c1, c2 in zip(color1, color2)])
-
-    def set_average(self, bool, box_size=2):
-        """
-        Use average algorithm or not, and set the box size to use for it.
-        + bool (bool): whether to use it or not.
-        + box_size (int): size of the box for the average algorithm
-        """
-        self.use_average = bool
-        self.avg_box_size = box_size
 
     def _average_color(self, pixels, x, y):
         """
@@ -38,24 +18,6 @@ class ImageColorizer:
         + x (int): x coord. of pixel
         + y (int): y coord. of pixel
         """
-        # list_r = list_g = list_b = []
-        # r = g = b = 0
-
-        # for i in range(-self.avg_box_size, self.avg_box_size+1):
-        #     for j in range(-self.avg_box_size, self.avg_box_size+1):
-        #         try:
-        #             pixel = pixels[x+i, y+j]
-        #             list_r.append(pixel[0])
-        #             list_g.append(pixel[1])
-        #             list_b.append(pixel[2])
-        #         except IndexError:
-        #             pass
-
-        # r = sum(list_r)//len(list_r)
-        # g = sum(list_g)//len(list_g)
-        # b = sum(list_b)//len(list_b)
-
-        # return (r, g, b)
         average_sum = []
         for k in range(-self.avg_box_size, self.avg_box_size+1):
             for l in range(-self.avg_box_size, self.avg_box_size+1):
@@ -78,26 +40,63 @@ class ImageColorizer:
         avg_color = (int(r/size), int(g/size), int(b/size))
         return avg_color
 
-    def generate(self, input, output, show=False):
+    def _quantize(self, image):
         """
-        Generate the image.
-        + input (str): path to image to generate from
-        + output (str): path to file to save image to
-        + show (bool): show the image at the end using the default image-viewer
+        Generates the image using quantize algorithm.
         """
-        if self.palette == []:
-            raise ValueError("Palette is empty")
+        palette_data = []
+        for i in self.palette:
+            palette_data.extend(i)
+
+        img_palette = Image.new('P', (1, 1))
+        img_palette.putpalette(palette_data)
+
+        quantized_image = image.quantize(
+            colors=256, method=0, kmeans=5, palette=img_palette)
+        quantized_image = quantized_image.convert('RGB')
+        return quantized_image
+
+    # Functions
+    def load_palette(self, values):
+        """
+        Load a palette to generate wallpapers from.
+        + values (list): color palette, either as a hex code '#ffffff' or RGB tuple (255, 255, 255)
+        """
+        if values is None or values == []:
+            raise ValueError("No values given for the palette.")
+        for i in values:
+            try:
+                self.palette.append(ImageColor.getcolor(i, "RGB"))
+            except ValueError:
+                continue
+
+    def set_average(self, bool, box_size=2):
+        """
+        Use average algorithm or not, and set the box size to use for it.
+        + bool (bool): whether to use it or not.
+        + box_size (int): size of the box for the average algorithm
+        """
+        self.use_average = bool
+        self.avg_box_size = box_size
+
+    def generate(self, input, output, show=False, blur=False, quantize=True):
+        """
+        Generate the image with the pixel/average algorithm.
+        """
         # Load image
-        img = Image.open(input)
-        width, height = img.width, img.height
+        image = Image.open(input)
+        width, height = image.width, image.height
+        # Quantize image first
+        if quantize:
+            image = self._quantize(image)
         # To show progress
         counter = 0
         limit = width*height
         # Already checked colors for better performance
         checked_colors = {}
         # Get the pixels from the image
-        pixels = img.load()
-        original_img = img.copy()
+        pixels = image.load()
+        original_img = image.copy()
         original_pixels = original_img.load()
         original_img.close()
         # Loop through every pixel
@@ -123,9 +122,10 @@ class ImageColorizer:
                 # Progress
                 print('Progress: {:.2f}%'.format(
                     counter/limit*100), end='\r')
-        # img = img.filter(ImageFilter.GaussianBlur(1))
+        if blur:
+            image = image.filter(ImageFilter.GaussianBlur(1))
         # Export the image
-        img.save(output, quality=100, subsampling=0)
+        image.save(output, quality=100, subsampling=0)
         # Show it
         if show:
             run('xdg-open {}'.format(output), shell=True)
