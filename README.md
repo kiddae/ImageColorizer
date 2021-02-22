@@ -3,21 +3,21 @@
 It's a Python module and a CLI tool that you can easily use to colorize wallpapers for them to fit a colorscheme.
 Currently supports importing colorschemes from the currently set `Xresources` variables and `colorer` (my [colorscheme management engine](https://github.com/ngynLk/colorer)).
 
-It can use two different algorithms:
-+ "classic" algorithm, goes through each pixel and replaces it with the right color from the colorscheme
-+ average algorithm, calculates the average color of each pixel before. This one gives smoother and better results in some cases.
-
-Using the OneDark colorscheme:
-
-![Colorscheme](Demo/Onedark.png)
+These examples use the OneDark colorscheme:
 
 ![Image](Demo/demo1.jpg)
 
 ![Image2](Demo/demo2.jpg)
-Original/OneDark
 
-![Image3](Demo/montage.png)
-OneDark/Gruvbox
+It can use two different algorithms:
++ pixel by pixel algorithm, goes through each pixel and replaces it with the right color from the colorscheme
++ average algorithm, calculates the average color of each pixel before. This one gives smoother and better results in some cases.
+
+![Original](Demo/montage.jpg)
+Pixel by pixel
+
+![Average](Demo/montage_avg.jpg)
+Average
 
 # Usage
 
