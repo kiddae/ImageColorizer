@@ -23,7 +23,7 @@ Average
 
 ```
 usage: ImageColorizer [-h] [-x] [-c COLORSCHEME] [-p COLOR [COLOR ...]] [-s]
-                      [--average BOX_SIZE] [--no_quantize]
+                      [-b] [--average BOX_SIZE] [--no_quantize]
                       input output
 
 positional arguments:
@@ -38,6 +38,7 @@ optional arguments:
   -p COLOR [COLOR ...], --palette COLOR [COLOR ...]
                         Manually set colors.
   -s, --show            Show image using xdg-open when image is generated.
+  -b, --blur            Blur the image
   --average BOX_SIZE    Use average algorithm (calculate the average color of
                         each pixel with the pixels around) to generate the
                         wallpaper, and set the size of the box to calculate
