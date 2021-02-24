@@ -1,7 +1,7 @@
 from setuptools import setup
 setup(
     name='ImageColorizer',
-    version='2.1',
+    version='1.2',
     packages=['ImageColorizer'],
     install_requires=['Pillow'],
     entry_points={
