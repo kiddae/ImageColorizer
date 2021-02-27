@@ -1,6 +1,7 @@
 import subprocess
 from .ClassModule import ImageColorizer
 import argparse
+from getpass import getuser
 
 
 def output(command):
@@ -15,6 +16,9 @@ def main():
         '-x', '--xresources', help='Get palette from Xresources.', action='store_true')
     parser.add_argument(
         '-c', '--colorer', help='Get palette from colorer.', metavar='COLORSCHEME')
+    parser.add_argument(
+        '-p', '--pywal', help='Get palette from pywal.', metavar='store_true'
+    )
     parser.add_argument(
         '-p', '--palette', help='Manually set colors.', nargs='+', metavar='COLOR')
     parser.add_argument(
@@ -35,6 +39,8 @@ def main():
     elif args.colorer is not None:
         values = output(
             'colorer --get all {}'.format(args.colorer)).split('\n')
+    elif args.pywal:
+        values = output("cat /home/{0}/.cache/wal/colors.Xresources | cut -f 2".format(getuser())).split('\n')
     else:
         values = args.palette
     img_col.load_palette(values)

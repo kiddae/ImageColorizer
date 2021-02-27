@@ -1,2 +1,4 @@
 ImageColorizer.egg-info/
 ImageColorizer/__pycache__/
+venv/
+.idea/
