@@ -1,6 +1,6 @@
 # Generate wallpapers and images using `ImageColorizer`!
 
-It's a Python module and a CLI tool that you can easily use to colorize wallpapers for them to fit a colorscheme.
+It's a Python module, and a CLI tool that you can easily use to colorize wallpapers for them to fit a colorscheme.
 Currently supports importing colorschemes from the currently set `Xresources` variables and `colorer` (my [colorscheme management engine](https://github.com/ngynLk/colorer)).
 
 These examples use the OneDark colorscheme:
@@ -22,7 +22,7 @@ Average
 # Usage
 
 ```
-usage: ImageColorizer [-h] [-x] [-c COLORSCHEME] [-p COLOR [COLOR ...]] [-s]
+usage: ImageColorizer [-h] [-x] [-c COLORSCHEME] [-w] [-p COLOR [COLOR ...]] [-s]
                       [-b] [--average BOX_SIZE] [--no_quantize]
                       input output
 
@@ -35,6 +35,8 @@ optional arguments:
   -x, --xresources      Get palette from Xresources.
   -c COLORSCHEME, --colorer COLORSCHEME
                         Get palette from colorer.
+  -w, --pywal
+                        Gets palette from pywal.
   -p COLOR [COLOR ...], --palette COLOR [COLOR ...]
                         Manually set colors.
   -s, --show            Show image using xdg-open when image is generated.
@@ -48,7 +50,7 @@ optional arguments:
 
 ```
 
-## Exemples
+## Examples
 
 ```shell
 ImageColorizer a.jpg output.jpg -x # Generate the wallpaper from colors of the currently used ~/.Xresources or ~/.Xdefaults file
