@@ -17,7 +17,7 @@ def main():
     parser.add_argument(
         '-c', '--colorer', help='Get palette from colorer.', metavar='COLORSCHEME')
     parser.add_argument(
-        '-w', '--pywal', help='Get palette from pywal.', metavar='store_true')
+        '-w', '--pywal', help='Get palette from pywal.', action='store_true')
     parser.add_argument(
         '-p', '--palette', help='Manually set colors.', nargs='+', metavar='COLOR')
     parser.add_argument(
