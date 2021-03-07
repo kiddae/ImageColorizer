@@ -25,6 +25,8 @@ def main():
     parser.add_argument(
         '-b', '--blur', help='Blur the image', action='store_true')
     parser.add_argument(
+        '-i', '--invert', help='Invert the image\'s colors before processing', action='store_true')
+    parser.add_argument(
         '--average', help='Use average algorithm (calculate the average color of each pixel with the pixels around) to generate the wallpaper, and set the size of the box to calculate the color from', type=int, metavar='BOX_SIZE')
     parser.add_argument(
         '--no_quantize', help='Do not quantize the image before processing (may make the image look better)', action='store_true')
@@ -39,7 +41,8 @@ def main():
         values = output(
             'colorer --get all {}'.format(args.colorer)).split('\n')
     elif args.pywal:
-        values = output("cat /home/{0}/.cache/wal/colors.Xresources | cut -f 2".format(getuser())).split('\n')
+        values = output(
+            "cat /home/{0}/.cache/wal/colors.Xresources | cut -f 2".format(getuser())).split('\n')
     else:
         values = args.palette
     img_col.load_palette(values)
@@ -47,7 +50,7 @@ def main():
     img_col.set_average(args.average is not None, args.average)
 
     img_col.generate(args.input, args.output, show=args.show,
-                     quantize=(not args.no_quantize), blur=args.blur)
+                     quantize=(not args.no_quantize), blur=args.blur, invert=args.invert)
 
 
 if __name__ == '__main__':
