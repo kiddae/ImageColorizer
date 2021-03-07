@@ -1,4 +1,5 @@
 from PIL import Image, ImageColor, ImageFilter
+import PIL.ImageOps
 from subprocess import run
 
 
@@ -82,7 +83,7 @@ class ImageColorizer:
         self.use_average = bool
         self.avg_box_size = box_size
 
-    def generate(self, input, output, show=False, blur=False, quantize=True):
+    def generate(self, input, output, show=False, blur=False, quantize=True, invert=False):
         """
         Generate the image with the pixel/average algorithm.
         + input (str): filepath of image to open
@@ -90,6 +91,7 @@ class ImageColorizer:
         + show (bool): whether to show the image using xdg-open at the end or not.
         + blur (bool): whether to blur the image at the end or not
         + quantize (bool): whether to quantize the image before or not.
+        + invert (bool): whether to invert the image before or not.
         """
         # Load image
         image = Image.open(input)
@@ -98,6 +100,8 @@ class ImageColorizer:
         # Quantize image first
         if quantize:
             image = self._quantize(image)
+        if invert:
+            image = PIL.ImageOps.invert(image)
         # To show progress
         counter = 0
         limit = width*height
