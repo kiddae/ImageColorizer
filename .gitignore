@@ -1,4 +1,5 @@
 ImageColorizer.egg-info/
-ImageColorizer/__pycache__/
+ImageColorizer/__pycache__
 venv/
 .idea/
+.vim
